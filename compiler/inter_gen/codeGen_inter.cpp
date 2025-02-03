@@ -188,8 +188,8 @@ Value *IntegerNode::codeGen(inter_gen::InterGenContext *ctx) const
     Value *value;
     //
     // if (Type* expectType = ctx->getExpectType()) {
-    //     value = ConstantInt::get(expectType, APInt(expectType->getIntegerBitWidth(), static_cast<uint64_t>(intValue.unsignedVal), false));
-    //     return value;
+    //     value = ConstantInt::get(expectType, APInt(expectType->getIntegerBitWidth(),
+    //     static_cast<uint64_t>(intValue.unsignedVal), false)); return value;
     // }
 
     // Determine the LLVM type and create the constant integer
@@ -356,8 +356,8 @@ Value *ArrayExpressionNode::codeGen(inter_gen::InterGenContext *ctx) const
 
         if (arrayBase->getType()->isArrayTy()) {
             auto arrayType = dyn_cast<ArrayType>(arrayBase->getType());
-            Type * elementType = arrayType->getElementType();
-            Value* elementPointer = BUILDER.CreateGEP(elementType, arrayBase, indices, "array_access");
+            Type *elementType = arrayType->getElementType();
+            Value *elementPointer = BUILDER.CreateGEP(elementType, arrayBase, indices, "array_access");
             if (needPointer) {
                 return elementPointer;
             }
@@ -367,16 +367,17 @@ Value *ArrayExpressionNode::codeGen(inter_gen::InterGenContext *ctx) const
         if (arrayBase->getType()->isPointerTy()) {
             auto pointerType = dyn_cast<PointerType>(arrayBase->getType());
             if (inter_gen::pointerMap.contains(pointerType)) {
-                Value* elementPointer = BUILDER.CreateGEP(inter_gen::pointerMap[pointerType], arrayBase, indexValue, "pointer_offset_access");
+                Value *elementPointer = BUILDER.CreateGEP(inter_gen::pointerMap[pointerType], arrayBase, indexValue,
+                                                          "pointer_offset_access");
                 if (needPointer) {
                     return elementPointer;
                 }
-                return BUILDER.CreateLoad(inter_gen::pointerMap[pointerType], elementPointer, "pointer_offset_access_value");
+                return BUILDER.CreateLoad(inter_gen::pointerMap[pointerType], elementPointer,
+                                          "pointer_offset_access_value");
             }
             // Type * elementType = pointerType->getScalarType();
             return BUILDER.CreateGEP(IntegerType::get(LLVMCTX, 32), arrayBase, indices, "array_access");
         }
-
     }
 
     return nullptr;
@@ -570,16 +571,13 @@ Value *BinaryExpressionNode::codeGen(inter_gen::InterGenContext *ctx) const
             } else {
                 lhsVal = BUILDER.CreateSExtOrTrunc(lhsVal, rhsType, "sext_or_trunc");
             }
-        }
-        else if (lhsType->isPointerTy() && rhsType->isIntegerTy()) {
+        } else if (lhsType->isPointerTy() && rhsType->isIntegerTy()) {
             rhsVal = BUILDER.CreateIntToPtr(rhsVal, lhsType, "int_to_ptr");
             rhsType = lhsType;
-        }
-        else if (lhsType->isIntegerTy() && rhsType->isPointerTy()) {
+        } else if (lhsType->isIntegerTy() && rhsType->isPointerTy()) {
             lhsVal = BUILDER.CreatePtrToInt(lhsVal, rhsType, "ptr_to_int");
             lhsType = rhsType;
-        }
-        else {
+        } else {
 #ifdef D_DEBUG
             util::logErr("Type mismatch in binary Expression", ctx, __FILE__, __LINE__);
 #else
@@ -1430,11 +1428,13 @@ void InterGenContext::setCurrFunMetaData(FunctionMetaData *funMetaData)
     currentFunMetaData = funMetaData;
 }
 
-void InterGenContext::setName(const std::string &nameString){
+void InterGenContext::setName(const std::string &nameString)
+{
     name = nameString;
 }
 
-std::string InterGenContext::getName() const{
+std::string InterGenContext::getName() const
+{
     return name;
 }
 

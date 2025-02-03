@@ -4,12 +4,12 @@
 
 #ifndef GLOBALINTERINFO_H
 #define GLOBALINTERINFO_H
-#include <unordered_map>
 #include <llvm/IR/DerivedTypes.h>
+#include <unordered_map>
 
 namespace dap::inter_gen
 {
-extern std::unordered_map<llvm::PointerType*, llvm::Type* > pointerMap;
+extern std::unordered_map<llvm::PointerType *, llvm::Type *> pointerMap;
 }
 
-#endif //GLOBALINTERINFO_H
+#endif // GLOBALINTERINFO_H

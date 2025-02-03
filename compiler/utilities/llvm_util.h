@@ -13,7 +13,7 @@
 
 namespace dap::inter_gen
 {
-extern std::unordered_map<llvm::PointerType*, llvm::Type* > pointerMap;
+extern std::unordered_map<llvm::PointerType *, llvm::Type *> pointerMap;
 }
 
 namespace dap::util

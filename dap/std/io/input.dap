@@ -3,6 +3,6 @@ package dap.std.io;
 import dap.runtime.sys.sysFun;
 
 fun stdioRead(var byte* buf, imt int size) int {
-    // return read(0, buf, size);
-    return 0;
+    return read(0, buf, size);
+    // return 0;
 }

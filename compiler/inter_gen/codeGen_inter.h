@@ -71,7 +71,7 @@ class InterGenContext
     bool definingVariable = false; ///< if now defining variable
     std::stack<bool> definingNestedIfStatement;
     bool assigning;
-    llvm::Type* expectType = nullptr;
+    llvm::Type *expectType = nullptr;
 
     std::stack<llvm::BasicBlock *> elseIfBlock_merge;
     std::stack<llvm::Value *> elseIfBlockValue;
@@ -105,7 +105,7 @@ class InterGenContext
         return assigning;
     }
 
-    void setName(const std::string & nameString);
+    void setName(const std::string &nameString);
 
     std::string getName() const;
 
@@ -328,11 +328,13 @@ class InterGenContext
         return block;
     }
 
-    void setExpectType(llvm::Type *type) {
+    void setExpectType(llvm::Type *type)
+    {
         expectType = type;
     }
 
-    llvm::Type* getExpectType() const {
+    llvm::Type *getExpectType() const
+    {
         return expectType;
     }
 };

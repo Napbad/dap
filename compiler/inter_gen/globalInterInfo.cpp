@@ -6,6 +6,6 @@
 
 namespace dap::inter_gen
 {
-std::unordered_map<llvm::PointerType*, llvm::Type* > pointerMap = {};
+std::unordered_map<llvm::PointerType *, llvm::Type *> pointerMap = {};
 
 }

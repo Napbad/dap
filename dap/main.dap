@@ -5,13 +5,15 @@ import dap.std.io.input;
 
 
 fun main() int {
-  // var byte[32] buf;
+  var byte[32] buf;
 
-  // stdioRead(&buf, 32);
+  fillStr(&buf, 0, 32);
 
-  // newline();
+  stdioRead(&buf, 31);
 
-  // print(&buf);
+  newline();
+
+  print(&buf);
 
   return 0;
 }

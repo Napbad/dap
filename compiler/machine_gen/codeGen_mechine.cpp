@@ -27,14 +27,31 @@ void dap::mech_gen::execGen(const std::set<inter_gen::IncludeGraphNode *> &map)
 
     std::string files = util::getStrFromVec(*filesToCompile, " ");
     files.append(" ").append(buildDir).append("dap/runtime/asm/_start.o ");
+
+    std::string targetPath = buildDir + targetExecName;
+    const std::string targetPathSource = targetPath;
+
+    if (std::filesystem::exists(targetPath)) {
+        while (std::filesystem::is_directory(targetPath)) {
+            targetPath.append("_");
+        }
+        util::logInfo("targetPath exists: " + targetPathSource + ", change to " + targetPath, nullptr, __FILE__,
+                      __LINE__);
+    }
 #ifdef D_DEBUG
-    util::logInfo("Compiling with command: " + ("ld " + files + arg + " -o " + targetExecName + " "), nullptr, __FILE__,
-                 __LINE__);
+    util::logInfo("Compiling with command: " + ("ld " + files + arg + " -o " + targetPath + " "), nullptr, __FILE__,
+                  __LINE__);
 #else
     util::logInfo("Compiling with command: " + ("ld " + files + arg + " -o " + targetExecName + " "), nullptr);
 #endif
 
     system(("ld " + files + arg + " -o " + targetExecName + " ").c_str());
+#ifdef D_DEBUG
+    util::logInfo("executable file has been generate: " + buildDir + targetExecName, nullptr, __FILE__, __LINE__);
+#else
+    util::logInfo("executable file has been generate: " + buildDir + targetExecName, nullptr);
+
+#endif
 }
 
 void dap::mech_gen::execGen_singleFile(inter_gen::InterGenContext *ctx, dap::parser::ProgramNode *program)
